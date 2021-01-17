@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'XXXyyyyXXXX'
+SECRET_KEY = 'q2(^kly)z3u1#3t++0hb*s&qwtm76^w+wm(6ux+453qhx#m&m@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://127.0.0.1:3000'
+    'http://127.0.0.1:3000',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -83,7 +83,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'api.wsgi.application'
+WSGI_APPLICATION = 'bussolar.wsgi.application'
 
 
 # Database
@@ -92,14 +92,13 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bussolar',
-        'USER': 'postgres-dev',
-        'PASSWORD': 'post!@3',
-        'HOST': '127.0.0.1',
+        'NAME': 'de04lobe8uhucs',
+        'USER': 'maztxdadghgehy',
+        'PASSWORD': 'e8ac0b3e116b743517d61dc708a7ffe461bd3e4defc44e1710f388c8e11fa186',
+        'HOST': 'ec2-50-19-247-157.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

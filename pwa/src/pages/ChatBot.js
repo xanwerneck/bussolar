@@ -25,6 +25,13 @@ export default class ChatBot extends React.Component {
             position: side,
             type: type ? type : "text",
             text: nome_arquivo ? nome_arquivo : message,
+            data : link ? {
+                uri: link,
+                status: {
+                    click: false,
+                    loading: 0,
+                }
+            } : null,
             date: new Date(),
             link : link
         }

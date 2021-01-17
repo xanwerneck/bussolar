@@ -5,13 +5,16 @@ import React from "react";
 import { MessageList, Input, Button } from 'react-chat-elements'
 import { Card, CardBody, CardFooter, CardHeader } from "shards-react";
 import { getIntent, getResponse } from "../common/chatbot";
-
+import { getUrlImage } from "../utils/helpers";
 
 export default class Chat extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            mensagem : ""
+            mensagem : "",
+            caminho : [
+
+            ]
         }
     }
 
@@ -37,14 +40,22 @@ export default class Chat extends React.Component {
                 this.props.addMensagem("Não consegui entender a sua mensagem, podemos tentar novamente?", 'left') 
             }else{
                 var intent = res.intents[0]
-                getResponse(intent.name, (data) => {
-                    console.log(data)
-                    if (data.link) {
-                        this.props.addMensagem('Olha o que eu achei, esse documento que pode ajudar você com essa dúvida, basta clicar nele para acessar.', 'left')   
-                        this.props.addMensagem(data.message, 'left', 'file', data.link, data.nome_arquivo) 
+                this.setState({
+                    caminho : [...this.state.caminho, intent]
+                })
+                getResponse(intent.name)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message.arquivo) {
+                        this.props.addMensagem(data.message.mensagem, 'left')   
+                        this.props.addMensagem(data.message.mensagem, 'left', 'photo', getUrlImage(data.message.arquivo)) 
                     } else {
-                        this.props.addMensagem(data.message, 'left')
+                        this.props.addMensagem(data.message.mensagem, 'left')
                     }
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.props.addMensagem("Não consegui entender a sua mensagem, podemos tentar novamente?", 'left')
                 })
             }
             
@@ -56,7 +67,7 @@ export default class Chat extends React.Component {
             <Card>
                 <CardHeader>
                     <FontAwesomeIcon icon={faRobot}/>
-                    Assistente virtual do Malte
+                    Assistente virtual do Bussolar
                 </CardHeader>
                 <CardBody>
                 <MessageList
