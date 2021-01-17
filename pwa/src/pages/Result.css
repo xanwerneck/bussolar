@@ -1,7 +1,10 @@
 .wrap-result {
+  position: absolute;
   width: 100%;
   padding: 8%;
-  background-color: #fff2e1;
+  background: url('../images/top-blue.png') no-repeat top left;
+  /* background-color: #fff2e1; */
+  z-index: 3;
 }
 
 header {
@@ -10,6 +13,7 @@ header {
   box-sizing: border-box;
   padding-bottom: 50px;
 }
+
 .feedback p,
 .feedback h1  {
   text-align: center;
@@ -36,6 +40,7 @@ header {
   border: 1px solid black;
   border-radius: 5px;
   padding: 20px;
+  background-color: #fff2e1a6;
 }
 
 .title-areas {
@@ -59,4 +64,22 @@ header {
 .video {
   background-color: white;
   padding: 10px;
+}
+
+.left-man {
+  position: absolute;
+  background: url('../images/left-man.png') no-repeat left;
+  width: 150px;
+  height: 330px;
+  top: 570px;
+  z-index: 1;
+}
+
+.right-center-yellow {
+  position: absolute;
+  background: url('../images/right-center-yellow.png') no-repeat right;
+  width: 100%;
+  height: 330px;
+  top: 610px;
+  z-index: 1;
 }
