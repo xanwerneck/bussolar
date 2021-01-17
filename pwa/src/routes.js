@@ -25,7 +25,7 @@ const Routes = () => (
       <Route exact path="/" component={Captura} />
       <Route exact path="/acesso" component={Captura} />
       <PrivateRoute path="/inicio" component={Home} />
-      <PrivateRoute path="/chatbot" component={ChatBot} />
+      <Route path="/chatbot" component={ChatBot} />
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>

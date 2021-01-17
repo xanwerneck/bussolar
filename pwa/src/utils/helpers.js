@@ -47,10 +47,15 @@ function diferencaDias(data1, data2){
     
 }
 
+function getUrlImage(url){
+    return 'http://localhost:8000/' + url
+}
+
 module.exports  = {
     mascaraCPF,
     mascaraData,
     mascaraCep,
     apenasNumeros,
-    calculaTempo
+    calculaTempo,
+    getUrlImage
 }

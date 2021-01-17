@@ -1,4 +1,4 @@
-import FirebaseService from "../services/FirebaseService";
+import { getToken } from "../utils/auth"
 
 var publicToken = '6PRZZ474JFSQOARK3MDRNOW7QIONFPG3'
 
@@ -12,7 +12,9 @@ export const getIntent = (message) => {
     return fetch(uri, { headers : { 'Authorization' : 'Bearer ' + publicToken } })
 }
 
-export const getResponse = (intent, callback) => {
-    FirebaseService.get('response_chatbot', intent, callback)
+export const getResponse = (intent) => {
+    const token = getToken()
+    const uri = 'http://localhost:8000/api/intent/' + intent
+    return fetch(uri, { headers : { 'Authorization' : 'Token ' + token } })
 }
 
