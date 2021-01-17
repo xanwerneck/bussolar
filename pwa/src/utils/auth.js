@@ -7,3 +7,6 @@ export const login = token => {
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
+
+export const setName = name => localStorage.setItem('nome', name);
+export const getName = () => localStorage.getItem('nome');

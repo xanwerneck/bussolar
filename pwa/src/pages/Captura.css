@@ -1,0 +1,100 @@
+.text-home {
+  font-family: 'Roboto', sans-serif;
+  color: #181818;
+  font-size: 18px;
+  margin-bottom: 50px;
+  text-align: center;
+  /* font-family: 'gentle'; */
+}
+.nome, 
+.email,
+.idade {
+  color: black !important;
+}
+
+.email:focus,
+.nome:focus,
+.idade:focus,
+.nome:defined,
+.email:defined,
+.idade:defined,
+.email::placeholder,
+.nome::placeholder,
+.idade::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(37, 37, 37) !important;
+  font-family: 'gentle';
+  opacity: 1; /* Firefox */
+}
+
+input[type=date] {
+  color: rgb(37, 37, 37) !important;
+  font-family: 'gentle';
+}
+
+.email:-ms-input-placeholder,
+.nome:-ms-input-placeholder,
+.idade:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: rgb(37, 37, 37) !important;
+  font-family: 'gentle';
+}
+
+.email::-ms-input-placeholder,
+.nome::-ms-input-placeholder,
+.idade::-ms-input-placeholder { /* Microsoft Edge */
+  color: rgb(37, 37, 37) !important;
+  font-family: 'gentle';
+}
+
+input[type="date"]:before {
+  content: attr(placeholder) !important;
+  color: rgb(37, 37, 37);
+  margin-right: 0.5em;
+}
+input[type="date"]:focus:before,
+input[type="date"]:valid:before {
+  content: "";
+}
+
+.bt-captura {
+  font-family: 'gentle'!important;
+  background-color: rgb(5, 25, 99) !important;
+  border: none !important;
+  width: 180px !important;
+  margin: 0 auto;
+  margin-top: 35px !important;
+  border-radius: 10px !important;
+}
+
+.bt-captura:hover {
+  background-color: rgb(30, 103, 185) !important;
+  letter-spacing: 1px;
+}
+
+.wrap-captura {
+  position: absolute;
+  padding: 0 35px !important;
+  z-index: 3;
+}
+
+.wrap-logo {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.wrap-form {
+  margin-top: 40px;
+}
+
+.left-yellow {
+  position: absolute;
+  background: url('../images/left-yellow.png') no-repeat bottom left;
+  width: 100vw;
+  height: 100vh;
+}
+
+.right-blue{
+  position: absolute;
+  background: url('../images/right-blue.png') no-repeat bottom right;
+  width: 100vw;
+  height: 100vh;
+}
