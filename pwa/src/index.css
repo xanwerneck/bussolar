@@ -4,6 +4,10 @@
   src: url(gentle.otf);
 }
 
+html {
+  background-color: #fff2e1;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
