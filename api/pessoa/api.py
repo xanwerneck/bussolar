@@ -14,6 +14,6 @@ class PessoaApi(NotAuthenticatedView):
             try:
                 token = pessoa_serializer.save()
                 return JsonResponse(data={'token': token}, status=status.HTTP_200_OK)
-            except:
-                return JsonResponse(data={'message': 'Erro ao tentar salvar dados da pessoa'}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                return JsonResponse(data={'message': 'Erro ao tentar salvar dados da pessoa' + str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(data={'message': 'Erro ao cadastrar pessoa'}, status=status.HTTP_400_BAD_REQUEST)

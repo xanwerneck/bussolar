@@ -1,21 +1,22 @@
-# Como rodar o projeto
+# Bussolar - Encontre um caminho de orientação profissional
 
-Este projeto serve de introdução para execução conforme arquitetura proposta nesse projeto
+## Definições
 
-## Scripts - API
+Este projeto é dividido em duas subpastas, cada uma delas contendo diferentes recursos e aplicações. 
 
-O diretório API contém as implementações de retaguarda da solução proposta.
-O propósito principal é fornecer serviços públicos e privados para o PWA.
+## PWA
 
-### `cd api`
+Os códigos do aplicativo estão na pasta pwa. Além disso, é inserido um README contendo um script para execução da aplicação. As principais tecnologias envolvidas nesse projeto foram:
 
-Seguir conforme script README.md
+### React => Interface mobile
+### Wit.ai => Chatbot
+### Firebase => Hosting
 
-## Scripts - PWA
 
-O diretório PWA contém código fonte para interface da aplicação.
-Os dados apresentados são obtidos pelos serviçoes em API.
+## API
 
-### `cd pwa`
+E a outra pasta é onde está desenvolvida a API para processamento da lógica das trilhas. Igualmente existe um arquivo README para instruções de execução em ambiente local.
 
-Seguir conforme script README.md
+### Python => 3.5 ou superior
+### Django => Framework Web
+### Django Rest Framework => Complemento ao Django para montagem de requisições REST

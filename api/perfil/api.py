@@ -12,14 +12,34 @@ class PerfilApi(NotAuthenticatedView):
         data = JSONParser().parse(request)
         perfil_serializer = PerfilSerializer(data=data)
         if perfil_serializer.is_valid():
-            identificacao_individual = Tags.objects.get(categoria=Categoria.objects.get(descricao='identificacao_individual'), tag=perfil_serializer.validated_data['identificacao_individual'][0])
-            competencias = Tags.objects.get(categoria=Categoria.objects.get(descricao='competencias'), tag=perfil_serializer.validated_data['competencias'][0])
-            se_ve_trabalhando = Tags.objects.get(categoria=Categoria.objects.get(descricao='se_ve_trabalhando'), tag=perfil_serializer.validated_data['se_ve_trabalhando'][0])
-            visao_de_mundo = Tags.objects.get(categoria=Categoria.objects.get(descricao='visao_de_mundo'), tag=perfil_serializer.validated_data['visao_de_mundo'])
+            tags = []
+            try:
+                identificacao_individual = Tags.objects.get(categoria=Categoria.objects.get(descricao='identificacao_individual'), tag=perfil_serializer.validated_data['identificacao_individual'][0])
+                tags.append(identificacao_individual)
+            except:
+                pass
+        
+            try:
+                competencias = Tags.objects.get(categoria=Categoria.objects.get(descricao='competencias'), tag=perfil_serializer.validated_data['competencias'][0])
+                tags.append(competencias)
+            except:
+                pass
+            
+            try:
+                se_ve_trabalhando = Tags.objects.get(categoria=Categoria.objects.get(descricao='se_ve_trabalhando'), tag=perfil_serializer.validated_data['se_ve_trabalhando'][0])
+                tags.append(se_ve_trabalhando)
+            except:
+                pass
 
+            try:
+                visao_de_mundo = Tags.objects.get(categoria=Categoria.objects.get(descricao='visao_de_mundo'), tag=perfil_serializer.validated_data['visao_de_mundo'][0])
+                tags.append(visao_de_mundo)
+            except:
+                pass
+            
             # Perfil
             perfil_tags = PerfilTag.objects.filter(
-                tag__in=[identificacao_individual, competencias, se_ve_trabalhando, visao_de_mundo]
+                tag__in=tags
             )
             perfils = []
             for perfil_tag in perfil_tags:
@@ -35,12 +55,18 @@ class PerfilApi(NotAuthenticatedView):
 
             # Habilidades
             habilidades = Habilidade.objects.filter(personalidade=personalidade)
-            habilidade_serializer = HabilidadeSerializer(habilidades, read_only=True, many=True)
+            habilidade = {
+                'labels' : [hab.descricao for hab in habilidades],   
+                'datasets' : [{
+                    'data' : [hab.valor for hab in habilidades]
+                }]
+            }
+            #habilidade_serializer = HabilidadeSerializer(habilidades, read_only=True, many=True)
 
             data={
                 'texto_personalidade' : personalidade.texto_personalidade,
                 'texto_empreendedor' : personalidade.perfil_empreendedor,
-                'habilidades': habilidade_serializer.data,
+                'habilidades': habilidade,
                 'perfils' : []
             }
 
@@ -57,8 +83,16 @@ class PerfilApi(NotAuthenticatedView):
 
                 # Cases
                 cases = CasePerfil.objects.filter(perfil=perfil)
-                case_serializer = CaseSerializer([case_perfil.case for case_perfil in cases], read_only=True, many=True)
-
+                cases_data = []
+                for case in cases:
+                    case_obj = {
+                        'titulo' : case.case.titulo,
+                        'link' : case.case.link,
+                        'personalidade' : case.case.personalidade
+                    }
+                    cases_data.append(case_obj)
+                #case_serializer = CaseSerializer([case_perfil.case for case_perfil in cases], read_only=True, many=True)
+                
                 # Oportunidades
                 oportunidades_perfil = OportunidadePerfil.objects.filter(perfil=perfil)
                 oportunidades = []
@@ -80,7 +114,7 @@ class PerfilApi(NotAuthenticatedView):
                 data_perfil = {
                     'descricao' : perfil.descricao,
                     'cursos' : curso_serializer.data,
-                    'cases' : case_serializer.data,
+                    'cases' : cases_data,
                     'oportunidade_vagas' : VagaSerializer(vagas, read_only=True, many=True).data if len(vagas) > 0 else [],
                     'oportunidade_materias' : MateriaSerializer(materias, read_only=True, many=True).data if len(materias) > 0 else []
                 }
@@ -88,6 +122,6 @@ class PerfilApi(NotAuthenticatedView):
       
 
 
-            return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
-        return JsonResponse(data={'message': 'Erro nao tratado 2'}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(data=data, status=status.HTTP_200_OK)
+        return JsonResponse(data={'message': 'Erro no envio dos dados' + str(perfil_serializer.errors)}, status=status.HTTP_400_BAD_REQUEST)
         
