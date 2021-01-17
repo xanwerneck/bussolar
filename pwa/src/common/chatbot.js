@@ -14,7 +14,7 @@ export const getIntent = (message) => {
 
 export const getResponse = (intent) => {
     const token = getToken()
-    const uri = 'http://localhost:8000/api/intent/' + intent
+    const uri = 'https://bussolar.herokuapp.com/api/intent/' + intent
     return fetch(uri, { headers : { 'Authorization' : 'Token ' + token } })
 }
 

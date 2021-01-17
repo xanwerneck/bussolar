@@ -1,4 +1,4 @@
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import {
@@ -13,11 +13,13 @@ export default class ChatBot extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            message_list : []
+            message_list : [],
+            concluido : false,
+            caminho : []
         }
     }
     componentDidMount() {
-        this.addMensagem('Bem-vindo, estou pronto...', 'left')
+        this.addMensagem('O papo vai ser assim, a gente troca uma ideia sobre coisas mais individuais suas primeiro, tudo bem? Exemplo, fala pra mim, o que você ama fazer, sabe, aquilo que você faria ou faz todo dia?', 'left')
     }
 
     addMensagem = (message, side, type = 'text', link = '', nome_arquivo = '') => {
@@ -39,6 +41,11 @@ export default class ChatBot extends React.Component {
             message_list : [...this.state.message_list, message_new]
         })
     }
+
+    concluir = (caminho) => {
+        this.setState({concluido : !this.state.concluido, caminho : caminho})
+    }
+
     render() {
         return (
             <>
@@ -49,15 +56,21 @@ export default class ChatBot extends React.Component {
                 <Chat 
                 message_list={this.state.message_list}
                 addMensagem={this.addMensagem}
+                concluir={this.concluir}
                 />
-                <div style={{margin: 15, marginTop: 30}}>
-                    <Button pill block
-                    style={{backgroundColor: "#8C0406", border: 0, fontSize: 20}}
-                    onClick={()=>this.props.history.goBack()}
-                    >
-                        <FontAwesomeIcon icon={faArrowLeft} />
-                    </Button>
-                </div>
+                {
+                    this.state.concluido ? (
+                        <div style={{margin: 15, marginTop: 30}}>
+                            <Button pill block
+                            style={{backgroundColor: "#8C0406", border: 0, fontSize: 20}}
+                            onClick={()=>this.props.history.goBack()}
+                            >
+                                Mostre meus resultados
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </Button>
+                        </div>
+                    ) : null
+                }                
                 </Container>
                 
             </>

@@ -12,9 +12,8 @@ export default class Chat extends React.Component {
         super(props)
         this.state = {
             mensagem : "",
-            caminho : [
-
-            ]
+            caminho : [],
+            entities : []
         }
     }
 
@@ -40,8 +39,20 @@ export default class Chat extends React.Component {
                 this.props.addMensagem("Não consegui entender a sua mensagem, podemos tentar novamente?", 'left') 
             }else{
                 var intent = res.intents[0]
+                if (intent.name == "sei_o_que_fazer") {
+                    this.props.addMensagem("Ja entendemos as suas respostas, acho que podemos falar de algumas coisas mais específicas, a gente preparou essas informações para você, se quiser conferir, é só clicar nesse link aqui abaixo.", 'left') 
+                    this.props.concluir(this.state.caminho, 'sei_o_que_fazer')
+                    return
+                }
+                if (intent.name == "focar_ideia") {
+                    this.props.addMensagem("Sabe o que eu me lembrei? Já ouviu falar de Multipotencial? Dá uma olhada nesse link que deixei para vc. Ah, tem também alguns feedbacks baseados no nossa conversa por aqui", 'left') 
+                    this.props.concluir(this.state.caminho, 'focar_ideia')
+                    return
+                }
+                var entities = Object.keys(res.entities).map(key => res.entities[key][0].name)
                 this.setState({
-                    caminho : [...this.state.caminho, intent]
+                    caminho : [...this.state.caminho, {'intent' : intent.name, 'entities' : entities}],
+                    entities : entities
                 })
                 getResponse(intent.name)
                 .then(res => res.json())
@@ -66,14 +77,16 @@ export default class Chat extends React.Component {
         return (
             <Card>
                 <CardHeader>
-                    <FontAwesomeIcon icon={faRobot}/>
-                    Assistente virtual do Bussolar
+                    <FontAwesomeIcon 
+                    style={{marginRight: 10}}
+                    icon={faRobot}/>
+                    Oi... Eu sou o <b>Busso</b>
                 </CardHeader>
                 <CardBody>
                 <MessageList
                     style={{height: 100}}
                     className='message-list'
-                    lockable={true}
+                    lockable={false}
                     toBottomHeight={'100%'}
                     dataSource={this.props.message_list}
                     onClick={(message) => {

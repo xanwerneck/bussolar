@@ -51,12 +51,6 @@ export default class Menu extends React.Component {
         <NavbarBrand href="#">
             <img src="/images/logo.jpg" width="65" style={{borderRadius: 10}} />
         </NavbarBrand>
-        <NavbarToggler onClick={this.toggleNavbar} />
-        <Button 
-        onClick={() => this.sair()}
-        style={{backgroundColor: "#ffffff", border: 0}}>
-            <FontAwesomeIcon icon={faSignOutAlt} style={{color: "#8C0406", fontSize: 20}} />
-        </Button>
       </Navbar>
     );
   }
