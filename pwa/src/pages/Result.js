@@ -35,10 +35,10 @@ export default class Result extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "identificacao_individual" : ["cortar_cabelo"],
-        "competencias" : ["fazer_unha"],
-        "se_ve_trabalhando" : ["fazer_unha"],
-        "visao_de_mundo" : ["aberta"],
+        "identificacao_individual" : ["decoraunha"],
+        "competencias" : ["vendas"],
+        "se_ve_trabalhando" : ["curso"],
+        "visao_de_mundo" : ["solidariedade"]
     })
     // ...      this.props.chatbot
     };
