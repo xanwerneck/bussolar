@@ -3,15 +3,18 @@ import './Result.css';
 import Logo from '../images/logo.png';
 import {Radar} from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getName } from '../utils/auth';
+import Loading from '../components/Loading';
 
 export default class Result extends React.Component {
   constructor() {
     super()
+    this.handleState = this.handleState.bind(this);
       this.state = {
-        nome: 'Mariana',
-        feedback: 'Neste sentido, o desenvolvimento contínuo de distintas formas de atuação garante a contribuição de um grupo importante na determinação dos métodos utilizados na avaliação de resultados.',
+        nome: getName(),
+        feedback: null,
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Ago'],
+          labels: ['', '', '', '', '', '', '', ''],
           datasets: [
             {
               label: 'Habilidades',
@@ -20,11 +23,34 @@ export default class Result extends React.Component {
               borderWidth: 1,
               hoverBackgroundColor: 'rgba(255,99,132,0.4)',
               hoverBorderColor: 'rgba(255,99,132,1)',
-              data: [65, 59, 80, 81, 56, 55, 80, 80]
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
             }
           ]
         }
       }
+  }
+
+  handleState(json) {
+    const { habilidades, perfils, texto_empreendedor, texto_personalidade } = json;
+    const { labels, datasets } = habilidades;
+    const { data } = datasets[0];
+    this.setState({ 
+      perfils,
+      feedback: texto_personalidade,
+      data: { 
+        labels,
+        datasets: [{
+          label: 'Habilidades',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data
+        }]
+      }
+    })
+    console.log(data)
   }
   
   componentDidMount(props) {
@@ -35,20 +61,22 @@ export default class Result extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "identificacao_individual" : ["decoraunha"],
-        "competencias" : ["vendas"],
-        "se_ve_trabalhando" : ["curso"],
-        "visao_de_mundo" : ["solidariedade"]
-    })
-    // ...      this.props.chatbot
+          "identificacao_individual" : ["decoraunha"],
+          "competencias" : ["vendas"],
+          "se_ve_trabalhando" : ["curso"],
+          "visao_de_mundo" : ["solidariedade"]
+        })
+    // ...    this.props.location.state.data  
     };
     fetch('https://bussolar.herokuapp.com/api/perfil', requestOptions)
       .then(res => res.json())
-      .then(json => console.log(json))
+      .then(json => this.handleState(json))
   }
 
-  render () {
-    const { data, nome, feedback } = this.state;
+
+  page() { 
+    const { data, nome, feedback, perfils } = this.state;
+    console.log(perfils)
     return (
       <>
         <div className="left-man" />
@@ -73,27 +101,79 @@ export default class Result extends React.Component {
           </div>
           <div className="areas">
             <h2 className="title-areas">Áreas sugeridas</h2>
-            <section className="area">
-              <h4 className="area-title">Estética</h4>
-              {/* <FontAwesomeIcon icon={['fas', 'fa-angle-down']} size="20" color="black" /> */}
-              <div className="cases">
-                <h4># Cases / Dicas</h4>
-                <div className="video">
-                  <iframe title="Greo097mhqI" width="100%"src="https://www.youtube.com/embed/Greo097mhqI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  <h5>4 DICAS de OURO para quem está começando a trabalhar em Estética!</h5>
-                </div>
-                <h5># Oportunidades</h5>
-                <div className="oportunidade">
-                  <p>Empreendedor - texto</p>
-                </div>
-                <div className="oportunidade">
-                  <p>Profissão - texto</p>
-                </div>
-              </div>
-            </section>
+            
+              {perfils.map((perfil) => {
+                return (
+                  <section className="area">
+                    <h4 className="area-title">Estética</h4>
+                    <h4 className="sub-title-area"># Cases / Dicas</h4>
+                    {perfil.cases.map((eachCase) => {
+                      const link = eachCase.link.split('https://www.youtube.com/watch?v=')[1];
+                      const titlevideo = eachCase.titulo;
+                      return (
+                        <div className="cases">
+                          <div className="video">
+                            <iframe title={titlevideo} width="100%"src={`https://www.youtube.com/embed/${link}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <h5>{titlevideo}</h5>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    <h5># Oportunidades</h5>
+                    {perfil.oportunidade_materias[0] && (<h5><strong>Empreendedor</strong></h5>)}
+                    {perfil.oportunidade_materias[0] && perfil.oportunidade_materias.map((materia) => {
+                      return (
+                        <div className="oportunidade">
+                          <a href={materia.link} className="title-link">
+                            <h4>&gt; {materia.titulo}</h4>
+                          </a>
+                          <p className="fonte-materia">Fonte: {materia.fonte}</p>
+                        </div>
+                      );
+                    })}
+                    {perfil.oportunidade_vagas[0] && (<h5><strong>Profissão</strong></h5>)}
+                    {perfil.oportunidade_vagas[0] && perfil.oportunidade_materias.map((materia) => {
+                      return (
+                        <div className="oportunidade">
+                          <a href={materia.link} className="title-link">
+                            <h4>&gt; {materia.titulo}</h4>
+                          </a>
+                          <p className="fonte-materia">Fonte: {materia.fonte}</p>
+                        </div>
+                      );
+                    })}
+                    
+                  </section>
+                  );
+                }) 
+              }
+            
           </div>
         </main>
       </>
+    );
+   }
+
+  render () {
+    const { feedback } = this.state
+    return (
+      <>
+        {!feedback ? <Loading /> : this.page()}
+      </>  
     )
   }
 }
+
+// {
+//   "identificacao_individual" : ["indecisa", "esforcada"],
+//   "competencias" : ["marketing_digital", "cuidar_filho"],
+//   "se_ve_trabalhando" : [],
+//   "visao_de_mundo" : ["futuro_criancas", "pequenos_gestos"]
+// }
+
+// {
+//   "identificacao_individual" : ["decoraunha"],
+//   "competencias" : ["vendas"],
+//   "se_ve_trabalhando" : ["curso"],
+//   "visao_de_mundo" : ["solidariedade"]
+// }
