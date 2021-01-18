@@ -6,7 +6,7 @@ from rest_framework import status
 from perfil.models import *
 from perfil.serializers import *
 
-class PerfilApi(NotAuthenticatedView):
+class PerfilApi(AuthenticatedView):
 
     def post(self, request):
         data = JSONParser().parse(request)
