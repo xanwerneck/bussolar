@@ -7,9 +7,9 @@ class PerfilSerializer(serializers.Serializer):
     identificacao_individual = serializers.ListField()
     competencias = serializers.ListField()
     se_ve_trabalhando = serializers.ListField()
-    visao_de_mundo = serializers.CharField()
-    saber_o_que_fazer = serializers.CharField()
-    focar_ideia = serializers.CharField()
+    visao_de_mundo = serializers.ListField()
+    saber_o_que_fazer = serializers.CharField(required=False)
+    focar_ideia = serializers.CharField(required=False)
 
 class CaseSerializer(serializers.Serializer):
     class Meta:

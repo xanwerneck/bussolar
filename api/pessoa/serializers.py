@@ -2,7 +2,6 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from pessoa.models import *
 from rest_framework.authtoken.models import Token
-import uuid
 
 class PessoaSerializer(serializers.Serializer):
     nome = serializers.CharField()
@@ -13,10 +12,10 @@ class PessoaSerializer(serializers.Serializer):
 
         try:
             user = User.objects.get(email=self.validated_data['email'])
-        except expression as identifier:
+        except:
             user = User.objects.create(username=self.validated_data['email'],
                                     email=self.validated_data['email'],
-                                    password=uuid.uuid4().hex)
+                                    password='XXaaBUSSOL@R')
         
         
         pessoa, created = Pessoa.objects.get_or_create(usuario=user)

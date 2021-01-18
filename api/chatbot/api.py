@@ -6,7 +6,7 @@ from rest_framework import status
 from chatbot.models import *
 from chatbot.serializers import RespostaSerializer
 
-class IntentApi(AuthenticatedView):
+class IntentApi(NotAuthenticatedView):
     def get(self, request, intent_str=None):
         try:
             intent_obj = Intent.objects.get(intent=intent_str)
