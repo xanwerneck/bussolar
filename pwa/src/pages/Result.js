@@ -3,7 +3,7 @@ import './Result.css';
 import Logo from '../images/logo.png';
 import {Radar} from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getName } from '../utils/auth';
+import { getName, getToken } from '../utils/auth';
 import Loading from '../components/Loading';
 
 export default class Result extends React.Component {
@@ -57,16 +57,10 @@ export default class Result extends React.Component {
     const requestOptions = {
       method: 'POST',
       headers: {
-        Authorization: "Token be5c0a523cc889964ecf7a5f50e4b7dc6ba51b01",
+        Authorization: "Token " + getToken(),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-          "identificacao_individual" : ["decoraunha"],
-          "competencias" : ["vendas"],
-          "se_ve_trabalhando" : ["curso"],
-          "visao_de_mundo" : ["solidariedade"]
-        })
-    // ...    this.props.location.state.data  
+      body: JSON.stringify(this.props.location.state.data)     
     };
     fetch('https://bussolar.herokuapp.com/api/perfil', requestOptions)
       .then(res => res.json())
@@ -105,7 +99,7 @@ export default class Result extends React.Component {
               {perfils.map((perfil) => {
                 return (
                   <section className="area">
-                    <h4 className="area-title">Estética</h4>
+                    <h4 className="area-title">{perfil.descricao}</h4>
                     <h4 className="sub-title-area"># Cases / Dicas</h4>
                     {perfil.cases.map((eachCase) => {
                       const link = eachCase.link.split('https://www.youtube.com/watch?v=')[1];
