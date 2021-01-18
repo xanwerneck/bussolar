@@ -2,7 +2,6 @@ import React from 'react';
 import './Result.css';
 import Logo from '../images/logo.png';
 import {Radar} from 'react-chartjs-2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getName, getToken } from '../utils/auth';
 import Loading from '../components/Loading';
 
@@ -157,17 +156,3 @@ export default class Result extends React.Component {
     )
   }
 }
-
-// {
-//   "identificacao_individual" : ["indecisa", "esforcada"],
-//   "competencias" : ["marketing_digital", "cuidar_filho"],
-//   "se_ve_trabalhando" : [],
-//   "visao_de_mundo" : ["futuro_criancas", "pequenos_gestos"]
-// }
-
-// {
-//   "identificacao_individual" : ["decoraunha"],
-//   "competencias" : ["vendas"],
-//   "se_ve_trabalhando" : ["curso"],
-//   "visao_de_mundo" : ["solidariedade"]
-// }
