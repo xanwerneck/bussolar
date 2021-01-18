@@ -5,7 +5,6 @@ import React from "react";
 import { MessageList, Input, Button } from 'react-chat-elements'
 import { Card, CardBody, CardFooter, CardHeader } from "shards-react";
 import { getIntent, getResponse } from "../common/chatbot";
-import { getUrlImage } from "../utils/helpers";
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -59,7 +58,7 @@ export default class Chat extends React.Component {
                 .then(data => {
                     if (data.message.arquivo) {
                         this.props.addMensagem(data.message.mensagem, 'left')   
-                        this.props.addMensagem(data.message.mensagem, 'left', 'photo', getUrlImage(data.message.arquivo)) 
+                        this.props.addMensagem(data.message.mensagem, 'left', 'photo', null) 
                     } else {
                         this.props.addMensagem(data.message.mensagem, 'left')
                     }
